@@ -32,4 +32,5 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/dep/glew/CMakeLists.txt")
     message(FATAL_ERROR "The submodules were not downloaded! GIT_SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
+add_subdirectory(dep/glew)
 add_subdirectory(dep/glfw)
