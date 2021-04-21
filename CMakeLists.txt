@@ -34,3 +34,4 @@ endif()
 
 add_subdirectory(dep/glew)
 add_subdirectory(dep/glfw)
+add_subdirectory(dep/MyLibrary)
