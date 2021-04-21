@@ -1,3 +1,3 @@
 #!/bin/sh
 
-cmake -S . -B build
+cmake -DGLFW_BUILD_DOCS=OFF -DGLFW_BUILD_EXAMPLES=OFF -S . -B build
