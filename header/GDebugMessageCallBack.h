@@ -1,8 +1,9 @@
 #pragma once
-#include<GL/glew.h>
-#include<GLFW/glfw3.h>
-
-
+#define APIENTRY __stdcall
+typedef unsigned int GLenum;
+typedef unsigned int GLuint;
+typedef int GLsizei;
+typedef char GLchar;
 
 void APIENTRY GLDebugMessageCallback(GLenum source, GLenum type, GLuint id,
 	GLenum severity, GLsizei length,
