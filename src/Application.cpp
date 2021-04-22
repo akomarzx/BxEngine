@@ -139,7 +139,7 @@ int main(int argc , char* argv[])
 		return 1;
 	}
 	EnableDebugMessageCallBack();
-	glfwSwapInterval(2);
+	glfwSwapInterval(5);
 	std::cout << glGetString(GL_VERSION) << '\n';
 
 	float Positions[6]
