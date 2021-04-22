@@ -8,6 +8,7 @@ project(BxEngine
 		)
 
 add_executable(${PROJECT_NAME} src/Application.cpp)
+find_package(OpenGL REQUIRED)
 
 find_package(Git QUIET)
 if(GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
@@ -33,5 +34,20 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/dep/glew/CMakeLists.txt")
 endif()
 
 add_subdirectory(dep/glew)
+
 add_subdirectory(dep/glfw)
+
 add_subdirectory(dep/MyLibrary)
+
+
+target_include_directories	(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dep/MyLibrary/header
+										   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dep/glew/include
+										   PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/dep/glfw/include
+							)
+								
+target_link_libraries	(${PROJECT_NAME} PRIVATE OpenGL::GL
+										 PRIVATE glfw
+										 PRIVATE libglew_static
+										 PRIVATE MyLibrary
+						)
+

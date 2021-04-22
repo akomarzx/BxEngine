@@ -7,6 +7,7 @@
 #include<cassert>
 #include"VertexBuffer.h"
 #include"IndexBuffer.h"
+#include "VertexArray.h"
 #include"GDebugMessageCallBack.h"
 
 struct ShaderSourceFiles
@@ -120,7 +121,7 @@ void EnableDebugMessageCallBack()
 
 int main(void)
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	
 	GLFWwindow* window;
 	window = SetupGLFW(600, 500, "Hello World", nullptr, nullptr);
 	if (!window)

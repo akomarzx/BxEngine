@@ -1,6 +1,8 @@
 #include"GDebugMessageCallBack.h"
 #include<cstdio>
-
+#include<cstring>
+#include"GL/glew.h"
+#include"GLFW/glfw3.h"
 // This is free and unencumbered software released into the public domain.
 // 
 // Anyone is free to copy, modify, publish, use, compile, sell, or distribute
@@ -140,7 +142,10 @@ void APIENTRY GLDebugMessageCallback(GLenum source, GLenum type, GLuint id,
 		_severity = "UNKNOWN";
 		break;
 	}
-
+	if ( strcmp(_type, "OTHER") == 0 && strcmp(_severity ,"NOTIFICATION") == 0 && strcmp(_source,"API") == 0)
+	{
+		return;
+	}
 	// ignore notification severity (you can add your own ignores)
 	// + Adds __debugbreak if _DEBUG is defined (automatic in visual studio)
 	// note: __debugbreak is specific for MSVC, won't work with gcc/clang
