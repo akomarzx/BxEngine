@@ -9,6 +9,7 @@
 #include"IndexBuffer.h"
 #include "VertexArray.h"
 #include"GDebugMessageCallBack.h"
+#include"BxEngineConfig.h"
 
 struct ShaderSourceFiles
 {
@@ -24,7 +25,7 @@ ShaderSourceFiles ParseShaderSrc()
 	};
     std::ifstream ShaderFile;
     std::stringstream ss[2];
-    ShaderFile.open("res/shaders/BasicShader.shader" , std::ifstream::in);
+    ShaderFile.open(ShaderSrcLocation, std::ifstream::in);
     ShaderType shadertype = ShaderType::NONE;
     if(ShaderFile.is_open())
     {
@@ -119,9 +120,10 @@ void EnableDebugMessageCallBack()
 	glDebugMessageCallback(GLDebugMessageCallback, nullptr);
 }
 
-int main(void)
+int main(int argc , char* argv[])
 {
-	
+
+	std::cout << "Project: " << argv[0] <<" Version " <<BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
 	GLFWwindow* window;
 	window = SetupGLFW(600, 500, "Hello World", nullptr, nullptr);
 	if (!window)

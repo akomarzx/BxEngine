@@ -6,8 +6,14 @@ project(BxEngine
 		HOMEPAGE_URL "https://github.com/akomarzx/msep"
 		LANGUAGES C CXX
 		)
+configure_file(config/BxEngineConfig.h.in BxEngineConfig.h)
+
+
 
 add_executable(${PROJECT_NAME} src/Application.cpp)
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
+
 find_package(OpenGL REQUIRED)
 
 find_package(Git QUIET)
