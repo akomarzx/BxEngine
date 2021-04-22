@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 project(BxEngine
-		VERSION 1.0
+		VERSION 2.0
 		DESCRIPTION "Simple Cmake project with glfw and glew"
 		HOMEPAGE_URL "https://github.com/akomarzx/msep"
 		LANGUAGES C CXX
