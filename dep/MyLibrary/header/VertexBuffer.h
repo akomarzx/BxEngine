@@ -2,7 +2,7 @@
 class VertexBuffer
 {
 private:
-	unsigned int BufferId;
+	unsigned int m_BufferId;
 public:
 	VertexBuffer(float* Data, unsigned int Size);
 	~VertexBuffer();
@@ -13,6 +13,6 @@ public:
 	void Bind()const;
 	void UnBind()const;
 
-	inline unsigned int GetBufferId()const { return BufferId; };
+	inline unsigned int GetBufferId()const { return m_BufferId; };
 };
 

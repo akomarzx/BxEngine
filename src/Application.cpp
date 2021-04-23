@@ -139,31 +139,28 @@ int main(int argc , char* argv[])
 		return 1;
 	}
 	EnableDebugMessageCallBack();
-	glfwSwapInterval(5);
+	glfwSwapInterval(2);
 	std::cout << glGetString(GL_VERSION) << '\n';
 
-	float Positions[6]
+	float Positions[8]
 	{
-		 0.0f,	0.5f, //0
-		-0.5f,  -0.5f, //1
-		 0.5f,  -0.5f, //2
+		 0.0f,	0.75f, //0
+		-0.5f,  0.0f, //1
+		 0.5f,  0.0f, //2
+		 0.0f,	-0.75f //3
 	};
 
 	unsigned int Indices[]
 	{
-		0 , 1 , 2
+		0 , 1 , 2,
+		1 , 2 , 3
 	};
-
-	unsigned int VaoId;
-	glGenVertexArrays(1, &VaoId);
-	glBindVertexArray(VaoId);
-
-	VertexBuffer VBO1{ Positions , 3 * 2 * sizeof(float)};
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, nullptr);
-	glEnableVertexAttribArray(0);
-	IndexBuffer IBO1{ Indices , 3 };
-	
-
+	VertexArray vao;
+	VertexBufferLayout layout;
+	VertexBuffer VBO1{ Positions , 4 * 2 * sizeof(float)};
+	layout.Push<float>(2);
+	vao.AddBuffer(VBO1, layout);
+	IndexBuffer IBO1{ Indices , 6 };
 	ShaderSourceFiles shadersrc = ParseShaderSrc();
 	unsigned int Shaders = CreateShader(shadersrc.VertexShaderSrc , shadersrc.FragmentShaderSrc);
 	glUseProgram(Shaders);
@@ -173,13 +170,14 @@ int main(int argc , char* argv[])
 	float increment = 0.05f;
 	float Red = 0.0f;
 
+	
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);
 		glUniform4f(UniformLocation, Red, 0.5f, 0.5f, 1.0f);
-		glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		if (Red > 1.0f)
 		{
 			increment = -0.05f;

@@ -4,7 +4,7 @@
 class VertexArray
 {
 private:
-	unsigned int VaoId;
+	unsigned int m_VaoId;
 public:
 	VertexArray();
 	~VertexArray();
@@ -12,7 +12,8 @@ public:
 	VertexArray(const VertexArray&&) = delete;
 	VertexArray& operator=(const VertexArray&) = delete;
 	void AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout);
-	
+	void Bind();
+	void UnBind();
 };
 
 
