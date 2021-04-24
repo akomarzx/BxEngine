@@ -1,4 +1,4 @@
-set(SOURCE_FILES "IndexBuffer.cpp" "VertexBuffer.cpp" "VertexArray.cpp" "GDebugMessageCallBack")
+set(SOURCE_FILES "IndexBuffer.cpp" "VertexBuffer.cpp" "VertexArray.cpp" "GDebugMessageCallBack.cpp")
 add_library(MyLibrary STATIC ${SOURCE_FILES})
 
 find_package(OpenGL REQUIRED)

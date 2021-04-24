@@ -1,3 +1,6 @@
+// This is an independent project of an individual developer. Dear PVS-Studio, please check it.
+
+// PVS-Studio Static Code Analyzer for C, C++ and C#: http://www.viva64.com
 #include"GL/glew.h"
 #include"GLFW/glfw3.h"
 #include<iostream>
@@ -13,8 +16,8 @@
 
 struct ShaderSourceFiles
 {
-    std::string VertexShaderSrc;
-    std::string FragmentShaderSrc;
+	std::string VertexShaderSrc;
+	std::string FragmentShaderSrc;
 };
 
 ShaderSourceFiles ParseShaderSrc()
@@ -23,42 +26,41 @@ ShaderSourceFiles ParseShaderSrc()
 	{
 		Vertex = 0, Fragment = 1, NONE = 2
 	};
-    std::ifstream ShaderFile;
-    std::stringstream ss[2];
-    ShaderFile.open(ShaderSrcLocation, std::ifstream::in);
-    ShaderType shadertype = ShaderType::NONE;
-    if(ShaderFile.is_open())
-    {
-        //std::cout << "Successfully Opened\n";
-        std::string line;
-        while(std::getline(ShaderFile , line))
-        {
-            if(line.find("#Shader") != std::string::npos)
-            {
-                if(line.find("Vertex") != std::string::npos)
-                {
-                    shadertype = ShaderType::Vertex;
-                }
-                else
-                {
-                    shadertype = ShaderType::Fragment;
-                }
-            }
-            else
-            {
-                ss[static_cast<int>(shadertype)] << line << '\n';
-            }
-        }
-    }
-    else{
-        std::cout<<"Failed to Open Shader src File\n";
+	std::ifstream ShaderFile;
+	std::stringstream ss[2];
+	ShaderFile.open(ShaderSrcLocation, std::ifstream::in);
+	ShaderType shadertype = ShaderType::NONE;
+	if (ShaderFile.is_open())
+	{
+		//std::cout << "Successfully Opened\n";
+		std::string line;
+		while (std::getline(ShaderFile, line))
+		{
+			if (line.find("#Shader") != std::string::npos)
+			{
+				if (line.find("Vertex") != std::string::npos)
+				{
+					shadertype = ShaderType::Vertex;
+				}
+				else
+				{
+					shadertype = ShaderType::Fragment;
+				}
+			}
+			else
+			{
+				ss[static_cast<int>(shadertype)] << line << '\n';
+			}
+		}
+	}
+	else {
+		std::cout << "Failed to Open Shader src File\n";
 		return{ "" , "" };
-    }
-    ShaderFile.close();
+	}
+	ShaderFile.close();
 
-    return {ss[0].str() , ss[1].str()};
+	return { ss[0].str() , ss[1].str() };
 }
-
 
 static unsigned int CompileShader(unsigned int type, const std::string& ShaderSrc)
 {
@@ -68,24 +70,23 @@ static unsigned int CompileShader(unsigned int type, const std::string& ShaderSr
 	glCompileShader(ShaderId);
 
 	int CompileStatus;
-	glGetShaderiv(ShaderId, GL_COMPILE_STATUS , &CompileStatus);
-	
+	glGetShaderiv(ShaderId, GL_COMPILE_STATUS, &CompileStatus);
+
 	if (!CompileStatus)
 	{
 		int MessageLenght;
 		glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &MessageLenght);
 		char* MessageBuffer = (char*)alloca(MessageLenght * sizeof(char));
 		glGetShaderInfoLog(ShaderId, MessageLenght, &MessageLenght, MessageBuffer);
-		std::cout << (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment" ) << " Shader failed to compile\n" << '\n';
-		std::cout << MessageBuffer <<'\n';
+		std::cout << (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment") << " Shader failed to compile\n" << '\n';
+		std::cout << MessageBuffer << '\n';
 		return 0;
 	}
-	
+
 	return ShaderId;
 }
 
-
-static int CreateShader(const std::string& VertexShaderSrc , const std::string& FragmentShaderSrc)
+static int CreateShader(const std::string& VertexShaderSrc, const std::string& FragmentShaderSrc)
 {
 	unsigned int Program = glCreateProgram();
 	unsigned int VertexShader = CompileShader(GL_VERTEX_SHADER, VertexShaderSrc);
@@ -99,7 +100,6 @@ static int CreateShader(const std::string& VertexShaderSrc , const std::string& 
 
 	return Program;
 }
-
 
 GLFWwindow* SetupGLFW(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
 {
@@ -120,10 +120,9 @@ void EnableDebugMessageCallBack()
 	glDebugMessageCallback(GLDebugMessageCallback, nullptr);
 }
 
-int main(int argc , char* argv[])
+int main(int argc, char* argv[])
 {
-
-	std::cout << "Project: " << argv[0] <<" Version " <<BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
+	std::cout << "Project: " << argv[0] << " Version " << BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
 	GLFWwindow* window;
 	window = SetupGLFW(600, 500, "Hello World", nullptr, nullptr);
 	if (!window)
@@ -157,12 +156,12 @@ int main(int argc , char* argv[])
 	};
 	VertexArray vao;
 	VertexBufferLayout layout;
-	VertexBuffer VBO1{ Positions , 4 * 2 * sizeof(float)};
+	VertexBuffer VBO1{ Positions , 4 * 2 * sizeof(float) };
 	layout.Push<float>(2);
 	vao.AddBuffer(VBO1, layout);
 	IndexBuffer IBO1{ Indices , 6 };
 	ShaderSourceFiles shadersrc = ParseShaderSrc();
-	unsigned int Shaders = CreateShader(shadersrc.VertexShaderSrc , shadersrc.FragmentShaderSrc);
+	unsigned int Shaders = CreateShader(shadersrc.VertexShaderSrc, shadersrc.FragmentShaderSrc);
 	glUseProgram(Shaders);
 	unsigned int UniformLocation = glGetUniformLocation(Shaders, "U_Color");
 	assert(UniformLocation != -1);
@@ -170,7 +169,6 @@ int main(int argc , char* argv[])
 	float increment = 0.05f;
 	float Red = 0.0f;
 
-	
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -197,6 +195,3 @@ int main(int argc , char* argv[])
 
 	return 0;
 }
-
-
-

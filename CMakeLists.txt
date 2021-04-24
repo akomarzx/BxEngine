@@ -58,4 +58,12 @@ target_link_libraries	(${PROJECT_NAME} PRIVATE OpenGL::GL
 										 PRIVATE libglew_static
 										 PRIVATE MyLibrary
 						)
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install (FILES "${PROJECT_BINARY_DIR}/BxEngineConfig.h" DESTINATION include)
 
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_SOURCE_DIR}/LICENSE.txt")
+set(CPACK_PACKAGE_VERSION_MAJOR "${BxEngine_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${BxEngine_VERSION_MAJOR}")
+set(CPACK_PACKAGE_EXECUTABLES "BxEngine" "BxEngine")
+include(CPack)
