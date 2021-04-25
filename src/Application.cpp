@@ -69,6 +69,7 @@ int main(int argc, char* argv[])
 	VertexBuffer VBO1{ Positions , 4 * 2 * sizeof(float) };
 	
 	layout.Push<float>(2);
+
 	vao.AddBuffer(VBO1, layout);
 	
 	IndexBuffer IBO1{ Indices , 6 };
