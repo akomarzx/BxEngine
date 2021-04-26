@@ -12,7 +12,7 @@
 #define GL_TRUE 1
 
 #ifdef _MSC_VER
-#define _S_Assert static_assert(false)
+#define _S_Assert assert(false)
 #else
 #include<iostream>
 #define _S_Assert std::cout << "Compiled with non msvc"
