@@ -113,11 +113,17 @@ unsigned int Shader::CreateShader(const std::string& VertexShaderSrc, const std:
 
 int Shader::GetUniformLocation(const std::string& Uniform_Name)
 {
+	if (UniformCacheLocation.find(Uniform_Name) != UniformCacheLocation.end())
+	{
+		return UniformCacheLocation[Uniform_Name];
+	}
+
 	int Location = glGetUniformLocation(m_ShaderId, Uniform_Name.c_str());
 	if (Location == -1)
 	{
 		std::cout << "Warning Uniform " << Uniform_Name << " not found\n";
 		throw std::runtime_error ("Uniform Not Found!");
 	}
-	return Location;
+	UniformCacheLocation.emplace(Uniform_Name, Location);
+	return UniformCacheLocation[Uniform_Name];
 }
