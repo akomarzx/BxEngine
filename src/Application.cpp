@@ -8,6 +8,7 @@
 #include "VertexArray.h"
 #include"GDebugMessageCallBack.h"
 #include"Shader.h"
+#include"Renderer.h"
 #include"BxEngineConfig.h"
 
 
@@ -79,7 +80,7 @@ int main(int argc, char* argv[])
 	
 	ShaderProg.SetUniform4f("U_Color", 0.5f, 0.5f, 0.5f, 1.0f);
 
-
+	Renderer renderer;
 	float increment = 0.05f;
 	float Red = 0.0f;
 
@@ -91,7 +92,7 @@ int main(int argc, char* argv[])
 		
 		ShaderProg.SetUniform4f("U_Color", Red, 0.5f, 0.5f, 1.0f);
 		
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		renderer.Draw(VBO1, IBO1, ShaderProg);
 		if (Red > 1.0f)
 		{
 			increment = -0.05f;

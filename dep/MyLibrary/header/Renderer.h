@@ -14,5 +14,5 @@ public:
 	Renderer(const Renderer&&) = delete;
 	Renderer& operator=(const Renderer&) = delete;
 	
-	void Draw()
+	void Draw(const VertexBuffer& vbo, const IndexBuffer& ibo, const Shader& shader);
 };
