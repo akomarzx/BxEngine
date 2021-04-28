@@ -1,4 +1,3 @@
-#include"GL/glew.h"
 #include"GLFW/glfw3.h"
 #include<iostream>
 #include<string>
@@ -6,7 +5,6 @@
 #include"VertexBuffer.h"
 #include"IndexBuffer.h"
 #include "VertexArray.h"
-#include"GDebugMessageCallBack.h"
 #include"Shader.h"
 #include"Renderer.h"
 #include"BxEngineConfig.h"
@@ -25,30 +23,29 @@ GLFWwindow* SetupGLFW(int width, int height, const char* title, GLFWmonitor* mon
 	return glfwCreateWindow(width, height, title, monitor, share);
 }
 
-void EnableDebugMessageCallBack()
-{
-	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-	glDebugMessageCallback(GLDebugMessageCallback, nullptr);
-}
+
 
 int main(int argc, char* argv[])
 {
 	std::cout << "Project: " << argv[0] << " Version " << BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
 	GLFWwindow* window;
+	Renderer renderer;
+
 	window = SetupGLFW(600, 500, "Hello World", nullptr, nullptr);
 	if (!window)
 	{
 		glfwTerminate();
 		return 1;
 	}
+
 	glfwMakeContextCurrent(window);
-	if (glewInit() != GLEW_OK)
+	if (!Renderer::InitializeGLEW())
 	{
 		std::cout << "NOT OK\n";
-		glfwTerminate();
+		glfwTerminate();	
 		return 1;
 	}
-	EnableDebugMessageCallBack();
+	Renderer::EnableGLEWDebugCallback();
 	glfwSwapInterval(2);
 	std::cout << glGetString(GL_VERSION) << '\n';
 
@@ -80,7 +77,6 @@ int main(int argc, char* argv[])
 	
 	ShaderProg.SetUniform4f("U_Color", 0.5f, 0.5f, 0.5f, 1.0f);
 
-	Renderer renderer;
 	float increment = 0.05f;
 	float Red = 0.0f;
 
@@ -88,7 +84,7 @@ int main(int argc, char* argv[])
 	while (!glfwWindowShouldClose(window))
 	{
 		/* Render here */
-		glClear(GL_COLOR_BUFFER_BIT);
+		renderer.Clear();
 		
 		ShaderProg.SetUniform4f("U_Color", Red, 0.5f, 0.5f, 1.0f);
 		

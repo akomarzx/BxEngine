@@ -14,5 +14,9 @@ public:
 	Renderer(const Renderer&&) = delete;
 	Renderer& operator=(const Renderer&) = delete;
 	
-	void Draw(const VertexBuffer& vbo, const IndexBuffer& ibo, const Shader& shader);
+	void Draw(const VertexBuffer& vbo, const IndexBuffer& ibo, const Shader& shader)const;
+	void Clear()const;
+
+	static bool InitializeGLEW();
+	static void EnableGLEWDebugCallback();
 };

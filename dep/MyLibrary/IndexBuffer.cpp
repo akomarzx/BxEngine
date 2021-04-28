@@ -2,6 +2,7 @@
 #include "IndexBuffer.h"
 
 IndexBuffer::IndexBuffer(unsigned int* Indices, unsigned int Count)
+	:m_Count{ Count }
 {
 	glGenBuffers(1, &m_BufferId);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_BufferId);
@@ -22,3 +23,4 @@ void IndexBuffer::UnBind() const
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
+

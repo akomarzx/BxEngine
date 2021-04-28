@@ -3,6 +3,7 @@ class IndexBuffer
 {
 private:
 	unsigned int m_BufferId;
+	unsigned int m_Count;
 public:
 	IndexBuffer(unsigned int* Indices, unsigned int Count);
 	~IndexBuffer();
@@ -14,5 +15,6 @@ public:
 	void UnBind()const;
 
 	inline unsigned int GetBufferId()const { return m_BufferId; };
+	inline unsigned GetCount() const { return m_Count; }
 };
 
