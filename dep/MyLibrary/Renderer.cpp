@@ -1,6 +1,6 @@
 #include"GL/glew.h"
 #include"Renderer.h"
-#include"VertexBuffer.h"
+#include"VertexArray.h"
 #include"IndexBuffer.h"
 #include"Shader.h"
 #include"GDebugMessageCallBack.h"
@@ -14,9 +14,9 @@ Renderer::~Renderer()
 
 }
 
-void Renderer::Draw(const VertexBuffer& vbo, const IndexBuffer& ibo, const Shader& shader) const
+void Renderer::Draw(const VertexArray& vao, const IndexBuffer& ibo, const Shader& shader) const
 {
-	vbo.Bind();
+	vao.Bind();
 	ibo.Bind();
 	shader.Bind();
 	glDrawElements(GL_TRIANGLES, ibo.GetCount(), GL_UNSIGNED_INT, nullptr);

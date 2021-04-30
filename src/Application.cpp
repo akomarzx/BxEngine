@@ -9,7 +9,6 @@
 #include"Renderer.h"
 #include"BxEngineConfig.h"
 
-
 GLFWwindow* SetupGLFW(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
 {
 	if (!glfwInit())
@@ -22,8 +21,6 @@ GLFWwindow* SetupGLFW(int width, int height, const char* title, GLFWmonitor* mon
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	return glfwCreateWindow(width, height, title, monitor, share);
 }
-
-
 
 int main(int argc, char* argv[])
 {
@@ -42,7 +39,7 @@ int main(int argc, char* argv[])
 	if (!Renderer::InitializeGLEW())
 	{
 		std::cout << "NOT OK\n";
-		glfwTerminate();	
+		glfwTerminate();
 		return 1;
 	}
 	Renderer::EnableGLEWDebugCallback();
@@ -65,16 +62,16 @@ int main(int argc, char* argv[])
 	VertexArray vao;
 	VertexBufferLayout layout;
 	VertexBuffer VBO1{ Positions , 4 * 2 * sizeof(float) };
-	
+
 	layout.Push<float>(2);
-	
+
 	vao.AddBuffer(VBO1, layout);
-	
+
 	IndexBuffer IBO1{ Indices , 6 };
 
 	Shader ShaderProg;
 	ShaderProg.Bind();
-	
+
 	ShaderProg.SetUniform4f("U_Color", 0.5f, 0.5f, 0.5f, 1.0f);
 
 	float increment = 0.05f;
@@ -85,9 +82,9 @@ int main(int argc, char* argv[])
 	{
 		/* Render here */
 		renderer.Clear();
-		
+
 		ShaderProg.SetUniform4f("U_Color", Red, 0.5f, 0.5f, 1.0f);
-		
+
 		renderer.Draw(VBO1, IBO1, ShaderProg);
 		if (Red > 1.0f)
 		{
@@ -103,6 +100,6 @@ int main(int argc, char* argv[])
 		glfwPollEvents();
 	}
 	glfwTerminate();
-	
+
 	return 0;
 }

@@ -27,12 +27,12 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
  	}
 }
 
-void VertexArray::Bind()
+void VertexArray::Bind() const
 {
 	glBindVertexArray(m_VaoId);
 }
 
-void VertexArray::UnBind()
+void VertexArray::UnBind() const
 {
 	glBindVertexArray(0);
 }
