@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 
 		ShaderProg.SetUniform4f("U_Color", Red, 0.5f, 0.5f, 1.0f);
 
-		renderer.Draw(VBO1, IBO1, ShaderProg);
+		renderer.Draw(vao, IBO1, ShaderProg);
 		if (Red > 1.0f)
 		{
 			increment = -0.05f;
