@@ -22,7 +22,7 @@ GLFWwindow* SetupGLFW(int width, int height, const char* title, GLFWmonitor* mon
 	return glfwCreateWindow(width, height, title, monitor, share);
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char** argv)
 {
 	std::cout << "Project: " << argv[0] << " Version " << BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
 	GLFWwindow* window;
@@ -46,12 +46,12 @@ int main(int argc, char* argv[])
 	glfwSwapInterval(2);
 	std::cout << glGetString(GL_VERSION) << '\n';
 
-	float Positions[8]
+	float Positions[12]
 	{
-		 0.0f,	0.75f, //0
-		-0.5f,  0.0f, //1
-		 0.5f,  0.0f, //2
-		 0.0f,	-0.75f //3
+		 0.0f,	 0.75f, 0.0f, //0
+		-0.5f,   0.0f , 0.0f, //1
+		 0.5f,   0.0f , 0.0f, //2
+		 0.0f,	-0.75f, 0.0f  //3
 	};
 
 	unsigned int Indices[]
@@ -61,10 +61,11 @@ int main(int argc, char* argv[])
 	};
 	VertexArray vao;
 	VertexBufferLayout layout;
-	VertexBuffer VBO1{ Positions , 4 * 2 * sizeof(float) };
+	VertexBuffer VBO1{ Positions , 4 * 3 * sizeof(float) };
 
 	layout.Push<float>(2);
-
+	layout.Push<float>(1);
+	
 	vao.AddBuffer(VBO1, layout);
 
 	IndexBuffer IBO1{ Indices , 6 };
@@ -86,6 +87,7 @@ int main(int argc, char* argv[])
 		ShaderProg.SetUniform4f("U_Color", Red, 0.5f, 0.5f, 1.0f);
 
 		renderer.Draw(vao, IBO1, ShaderProg);
+		//glDrawElements(GL_TRIANGLES, 6 , GL_UNSIGNED_INT, nullptr);
 		if (Red > 1.0f)
 		{
 			increment = -0.05f;

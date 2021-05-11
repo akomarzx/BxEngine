@@ -26,7 +26,7 @@ void Shader::Unbind() const
 	glUseProgram(0);
 }
 
-void Shader::SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3)
+void Shader::SetUniform4f(const char* name, float v0, float v1, float v2, float v3)
 {
 	glUniform4f(GetUniformLocation(name), v0 , v1 , v2, v3);
 }
@@ -85,10 +85,10 @@ unsigned int Shader::CompileShader(unsigned int type, const std::string& ShaderS
 
 	if (!CompileStatus)
 	{
-		int MessageLenght;
-		glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &MessageLenght);
-		char* MessageBuffer = (char*)alloca(MessageLenght * sizeof(char));
-		glGetShaderInfoLog(ShaderId, MessageLenght, &MessageLenght, MessageBuffer);
+		int MessageLength;
+		glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &MessageLength);
+		char* MessageBuffer = (char*)alloca(MessageLength * sizeof(char));
+		glGetShaderInfoLog(ShaderId, MessageLength, &MessageLength, MessageBuffer);
 		std::cout << (type == GL_VERTEX_SHADER ? "Vertex" : "Fragment") << " Shader failed to compile\n" << '\n';
 		std::cout << MessageBuffer << '\n';
 		return 0;

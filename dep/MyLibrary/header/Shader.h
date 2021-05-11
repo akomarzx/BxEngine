@@ -14,7 +14,6 @@ private:
 	unsigned int m_ShaderId;
 	ShaderSourceFiles ShaderSrcs;
 	std::unordered_map<std::string, unsigned int>UniformCacheLocation;
-	
 public:
 	Shader();
 	~Shader();
@@ -25,7 +24,7 @@ public:
 	void Bind()const;
 	void Unbind()const;
 
-	void SetUniform4f(const std::string& name, float v0, float v1, float v2, float v3);
+	void SetUniform4f(const char* name, float v0, float v1, float v2, float v3);
 	inline unsigned int GetProgramId()const { return m_ShaderId; }
 
 private:
