@@ -39,7 +39,8 @@ void Shader::ParseShaderSrc()
 	};
 	std::ifstream ShaderFile;
 	std::stringstream ss[2];
-	ShaderFile.open(ShaderSrcLocation, std::ifstream::in);
+	std::string ShaderSrcName = "BasicShader.shader";
+	ShaderFile.open(ShaderSrcLocation + ShaderSrcName, std::ifstream::in);
 	ShaderType shadertype = ShaderType::NONE;
 	if (ShaderFile.is_open())
 	{

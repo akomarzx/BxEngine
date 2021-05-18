@@ -1,4 +1,5 @@
 #define BxEngine_VERSION_MAJOR @BxEngine_VERSION_MAJOR@
 #define BxEngine_VERSION_MINOR @BxEngine_VERSION_MINOR@
 
-#define ShaderSrcLocation "@CMAKE_SOURCE_DIR@/res/shaders/BasicShader.shader"
+#define ShaderSrcLocation "@CMAKE_SOURCE_DIR@/res/shaders/"
+#define TextureLocation "@CMAKE_SOURCE_DIR@/res/textures/"
