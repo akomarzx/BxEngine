@@ -1,4 +1,6 @@
-set(SOURCE_FILES "IndexBuffer.cpp" "VertexBuffer.cpp" "VertexArray.cpp" "GDebugMessageCallBack.cpp" "Shader.cpp" "Renderer.cpp")
+set(SOURCE_FILES "IndexBuffer.cpp" "VertexBuffer.cpp" "VertexArray.cpp" "GDebugMessageCallBack.cpp" "Shader.cpp" "Renderer.cpp"
+	"Texture.cpp"	
+   )
 add_library(MyLibrary STATIC ${SOURCE_FILES})
 
 find_package(OpenGL REQUIRED)
