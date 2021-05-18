@@ -4,7 +4,7 @@ class VertexBuffer
 private:
 	unsigned int m_BufferId;
 public:
-	VertexBuffer(float* Data, unsigned int Size);
+	VertexBuffer(const float* Data, const unsigned int Size);
 	~VertexBuffer();
 	VertexBuffer(const VertexBuffer&) = delete;
 	VertexBuffer(const VertexBuffer&&) = delete;

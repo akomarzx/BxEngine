@@ -1,7 +1,7 @@
 #include"GL/glew.h"
 #include "IndexBuffer.h"
 
-IndexBuffer::IndexBuffer(unsigned int* Indices, unsigned int Count)
+IndexBuffer::IndexBuffer(const unsigned int* Indices, const unsigned int Count)
 	:m_Count{ Count }
 {
 	glGenBuffers(1, &m_BufferId);

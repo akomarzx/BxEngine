@@ -5,7 +5,7 @@ private:
 	unsigned int m_BufferId;
 	unsigned int m_Count;
 public:
-	IndexBuffer(unsigned int* Indices, unsigned int Count);
+	IndexBuffer(const unsigned int* Indices, const unsigned int Count);
 	~IndexBuffer();
 	IndexBuffer(const IndexBuffer&) = delete;
 	IndexBuffer(const IndexBuffer&&) = delete;

@@ -1,7 +1,7 @@
 #include"GL/glew.h"
 #include "VertexBuffer.h"
 
-VertexBuffer::VertexBuffer(float* Data, unsigned int Size)
+VertexBuffer::VertexBuffer(const float* Data, const unsigned int Size)
 {
 	glGenBuffers(1, &m_BufferId); // Generate a Buffer of Memory
 	glBindBuffer(GL_ARRAY_BUFFER, m_BufferId); // Selecting of Binding a memory to work with.
