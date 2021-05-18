@@ -18,7 +18,7 @@
 #define _S_Assert std::cout << "Compiled with non msvc"
 #endif
 
-struct VertexBufferElements
+struct BufferElements
 {
 	unsigned int Type;
 	unsigned int Count;
@@ -36,12 +36,12 @@ struct VertexBufferElements
 	}
 };
 
-class VertexBufferLayout
+class BufferLayout
 {
-	std::vector<VertexBufferElements> m_Elements;
+	std::vector<BufferElements> m_Elements;
 	unsigned int m_Stride;
 public:
-	VertexBufferLayout()
+	BufferLayout()
 		:m_Stride{ 0 } {}
 
 	template<typename T>
@@ -56,21 +56,21 @@ public:
 
 
 template<>
-inline void VertexBufferLayout::Push<float>(unsigned int count)
+inline void BufferLayout::Push<float>(unsigned int count)
 {
-	m_Elements.emplace_back(std::move(VertexBufferElements{ GL_FLOAT , count , GL_FALSE }));
-	m_Stride += VertexBufferElements::GetSizeOfType(GL_FLOAT) * count;
+	m_Elements.emplace_back(std::move(BufferElements{ GL_FLOAT , count , GL_FALSE }));
+	m_Stride += BufferElements::GetSizeOfType(GL_FLOAT) * count;
 }
 
 template<>
-inline void VertexBufferLayout::Push<unsigned int>(unsigned int count)
+inline void BufferLayout::Push<unsigned int>(unsigned int count)
 {
-	m_Elements.emplace_back(std::move(VertexBufferElements{ GL_UNSIGNED_INT, count  , GL_TRUE }));
-	m_Stride += VertexBufferElements::GetSizeOfType(GL_UNSIGNED_INT) * count;
+	m_Elements.emplace_back(std::move(BufferElements{ GL_UNSIGNED_INT, count  , GL_TRUE }));
+	m_Stride += BufferElements::GetSizeOfType(GL_UNSIGNED_INT) * count;
 }
 template<>
-inline void VertexBufferLayout::Push<unsigned char>(unsigned  int count)
+inline void BufferLayout::Push<unsigned char>(unsigned  int count)
 {
-	m_Elements.emplace_back(std::move(VertexBufferElements{ GL_UNSIGNED_BYTE , count , GL_TRUE }));
-	m_Stride += VertexBufferElements::GetSizeOfType(GL_UNSIGNED_BYTE) * count;
+	m_Elements.emplace_back(std::move(BufferElements{ GL_UNSIGNED_BYTE , count , GL_TRUE }));
+	m_Stride += BufferElements::GetSizeOfType(GL_UNSIGNED_BYTE) * count;
 }

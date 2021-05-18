@@ -12,7 +12,7 @@ VertexArray::~VertexArray()
 	glDeleteVertexArrays(1, &m_VaoId);
 }
 
-void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& layout)
+void VertexArray::AddBuffer(const VertexBuffer& vb, const BufferLayout& layout)
 {
 	vb.Bind();
 	auto const& BufferLayoutElements = layout.GetVectorElements();
@@ -23,7 +23,7 @@ void VertexArray::AddBuffer(const VertexBuffer& vb, const VertexBufferLayout& la
 		glEnableVertexAttribArray(i);
 		glVertexAttribPointer(i, LayoutElement.Count, LayoutElement.Type , LayoutElement.Normalized,
 								layout.GetStride(), (const void*)Offset);
-		Offset += LayoutElement.Count * VertexBufferElements::GetSizeOfType(LayoutElement.Type);
+		Offset += LayoutElement.Count * BufferElements::GetSizeOfType(LayoutElement.Type);
  	}
 }
 

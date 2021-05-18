@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 		1 , 2 , 3
 	};
 	VertexArray vao;
-	VertexBufferLayout layout;
+	BufferLayout layout;
 	VertexBuffer VBO1{ Positions , 4 * 3 * sizeof(float) };
 
 	layout.Push<float>(2);
