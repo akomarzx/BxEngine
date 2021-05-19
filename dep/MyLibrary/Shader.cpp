@@ -5,7 +5,8 @@
 #include<fstream>
 #include"BxEngineConfig.h"
 
-Shader::Shader()
+Shader::Shader(std::string FileName)
+	:m_FilePath{ShaderSrcLocation + FileName}
 {
 	ParseShaderSrc();
 	m_ShaderId = CreateShader(ShaderSrcs.VertexShaderSrc, ShaderSrcs.FragmentShaderSrc);
@@ -26,6 +27,16 @@ void Shader::Unbind() const
 	glUseProgram(0);
 }
 
+void Shader::SetUniform1i(const char* name, int value)
+{
+	glUniform1i(GetUniformLocation(name), value);
+}
+
+void Shader::SetUniform1f(const char* name, float value)
+{
+	glUniform1f(GetUniformLocation(name), value);
+}
+
 void Shader::SetUniform4f(const char* name, float v0, float v1, float v2, float v3)
 {
 	glUniform4f(GetUniformLocation(name), v0 , v1 , v2, v3);
@@ -40,7 +51,7 @@ void Shader::ParseShaderSrc()
 	std::ifstream ShaderFile;
 	std::stringstream ss[2];
 	std::string ShaderSrcName = "BasicShader.shader";
-	ShaderFile.open(ShaderSrcLocation + ShaderSrcName, std::ifstream::in);
+	ShaderFile.open(m_FilePath, std::ifstream::in);
 	ShaderType shadertype = ShaderType::NONE;
 	if (ShaderFile.is_open())
 	{
@@ -114,17 +125,17 @@ unsigned int Shader::CreateShader(const std::string& VertexShaderSrc, const std:
 
 int Shader::GetUniformLocation(const std::string& Uniform_Name)
 {
-	if (UniformCacheLocation.find(Uniform_Name) != UniformCacheLocation.end())
+	if (m_UniformCacheLocation.find(Uniform_Name) != m_UniformCacheLocation.end())
 	{
-		return UniformCacheLocation[Uniform_Name];
+		return m_UniformCacheLocation[Uniform_Name];
 	}
 
 	int Location = glGetUniformLocation(m_ShaderId, Uniform_Name.c_str());
 	if (Location == -1)
 	{
 		std::cout << "Warning Uniform " << Uniform_Name << " not found\n";
-		throw std::runtime_error ("Uniform Not Found!");
+		//throw std::runtime_error ("Uniform Not Found!");
 	}
-	UniformCacheLocation.emplace(Uniform_Name, Location);
-	return UniformCacheLocation[Uniform_Name];
+	m_UniformCacheLocation.emplace(Uniform_Name, Location);
+	return m_UniformCacheLocation[Uniform_Name];
 }

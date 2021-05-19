@@ -1,7 +1,7 @@
 #pragma once
 #include<string>
 #include<unordered_map>
-struct ShaderSourceFiles
+struct m_ShaderSourceFiles
 {
 	std::string VertexShaderSrc;
 	std::string FragmentShaderSrc;
@@ -12,10 +12,11 @@ class Shader
 {
 private:
 	unsigned int m_ShaderId;
-	ShaderSourceFiles ShaderSrcs;
-	std::unordered_map<std::string, unsigned int>UniformCacheLocation;
+	m_ShaderSourceFiles ShaderSrcs;
+	std::string m_FilePath;
+	std::unordered_map<std::string, int>m_UniformCacheLocation;
 public:
-	Shader();
+	Shader(std::string FileName);
 	~Shader();
 	Shader(const Shader&) = delete;
 	Shader(const Shader&&) = delete;
@@ -23,7 +24,8 @@ public:
 	
 	void Bind()const;
 	void Unbind()const;
-
+	void SetUniform1i(const char* name, int value);
+	void SetUniform1f(const char* name, float value);
 	void SetUniform4f(const char* name, float v0, float v1, float v2, float v3);
 	inline unsigned int GetProgramId()const { return m_ShaderId; }
 

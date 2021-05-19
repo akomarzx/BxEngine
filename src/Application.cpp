@@ -7,6 +7,7 @@
 #include "VertexArray.h"
 #include"Shader.h"
 #include"Renderer.h"
+#include"Texture.h"
 #include"BxEngineConfig.h"
 
 GLFWwindow* SetupGLFW(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
@@ -27,7 +28,7 @@ int main(int argc, char** argv)
 	std::cout << "Project: " << argv[0] << " Version " << BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
 	GLFWwindow* window;
 	Renderer renderer;
-
+	
 	window = SetupGLFW(600, 500, "Hello World", nullptr, nullptr);
 	if (!window)
 	{
@@ -46,12 +47,12 @@ int main(int argc, char** argv)
 	glfwSwapInterval(2);
 	std::cout << glGetString(GL_VERSION) << '\n';
 
-	float Positions[12]
+	float Positions[]
 	{
-		 0.0f,	 0.75f, 0.0f, //0
-		-0.5f,   0.0f , 0.0f, //1
-		 0.5f,   0.0f , 0.0f, //2
-		 0.0f,	-0.75f, 0.0f  //3
+		 0.0f,	 0.75f, 0.0f, 0.0f, //0
+		-0.5f,   0.0f , 1.0f, 0.0f,//1
+		 0.5f,   0.0f , 1.0f, 1.0f, //2
+		 0.0f,	-0.75f, 0.0f , 1.0f  //3
 	};
 
 	unsigned int Indices[]
@@ -61,22 +62,20 @@ int main(int argc, char** argv)
 	};
 	VertexArray vao;
 	BufferLayout layout;
-	VertexBuffer VBO1{ Positions , 4 * 3 * sizeof(float) };
+	VertexBuffer VBO1{ Positions , 4 * 4 * sizeof(float) };
 
 	layout.Push<float>(2);
-	layout.Push<float>(1);
+	layout.Push<float>(2);
 	
 	vao.AddBuffer(VBO1, layout);
 
 	IndexBuffer IBO1{ Indices , 6 };
 
-	Shader ShaderProg;
+	Shader ShaderProg("BasicShader.glsl");
 	ShaderProg.Bind();
-
-	ShaderProg.SetUniform4f("U_Color", 0.5f, 0.5f, 0.5f, 1.0f);
-
-	float increment = 0.05f;
-	float Red = 0.0f;
+	Textures texture("concrete.jpg");
+	texture.Bind();
+	ShaderProg.SetUniform1i("U_Texture", 0);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -84,19 +83,9 @@ int main(int argc, char** argv)
 		/* Render here */
 		renderer.Clear();
 
-		ShaderProg.SetUniform4f("U_Color", Red, 0.5f, 0.5f, 1.0f);
-
 		renderer.Draw(vao, IBO1, ShaderProg);
 		//glDrawElements(GL_TRIANGLES, 6 , GL_UNSIGNED_INT, nullptr);
-		if (Red > 1.0f)
-		{
-			increment = -0.05f;
-		}
-		else if (Red < 0.0f)
-		{
-			increment = 0.05f;
-		}
-		Red += increment;
+
 		glfwSwapBuffers(window);
 		/* Poll for and process events */
 		glfwPollEvents();

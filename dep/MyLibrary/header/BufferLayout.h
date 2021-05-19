@@ -20,9 +20,9 @@
 
 struct BufferElements
 {
-	unsigned int Type;
-	unsigned int Count;
-	unsigned char Normalized;
+	unsigned int m_Type;
+	unsigned int m_Count;
+	unsigned char m_Normalized;
 
 	static unsigned int GetSizeOfType(unsigned int type)
 	{
