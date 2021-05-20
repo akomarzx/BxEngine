@@ -76,19 +76,34 @@ int main(int argc, char** argv)
 	{
 		0,1,2,1,2,3,4,5,6,4,6,7
 	};
-
-	VertexArray vao;
+	unsigned int Indices2[]
+	{
+		0,1,2
+	};
+	VertexArray vao1;
 	VertexBuffer vbo1{Vertices , 4 * 4 * sizeof(float) };
 	IndexBuffer ibo1{ Indices , 6 };
 	BufferLayout layout;
 	layout.Push<float>(2);
 	layout.Push<float>(2);
-	vao.AddBuffer(vbo1, layout);
+	vao1.AddBuffer(vbo1, layout);
 	Shader shader1{ "BasicVertexShader.vert" , "BasicFragmentShader.frag"};
 	shader1.Bind();
 	Textures texture{ "concrete.jpg" };
 	texture.Bind(0);
 	shader1.SetUniform1i("U_Texture", 0);
+
+
+	VertexArray vao2;
+	VertexBuffer vbo2{ TriangleWithColor , 3 * 6 * sizeof(float) };
+	IndexBuffer ibo2{ Indices2 , 3 };
+	BufferLayout layout2;
+	layout2.Push<float>(2);
+	layout2.Push<float>(4);
+	vao2.AddBuffer(vbo2, layout2);
+	Shader shader2{ "ColorTriangle.vert" , "ColorTriangle.frag" };
+	shader2.Bind();
+
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -96,7 +111,7 @@ int main(int argc, char** argv)
 		/* Render here */
 		renderer.Clear();
 
-		renderer.Draw(vao, ibo1, shader1);
+		renderer.Draw(vao2, ibo2, shader2);
 
 		glfwSwapBuffers(window);
 		/* Poll for and process events */

@@ -57,7 +57,6 @@ void Shader::ParseShaderSrc(ShaderType type)
 	std::ifstream ShaderFile;
 	std::stringstream ss;
 	ShaderFile.open(shadersrc, std::ifstream::in);
-	ShaderType shadertype = ShaderType::NONE;
 	if (ShaderFile.is_open())
 	{
 		//std::cout << "Successfully Opened\n";
