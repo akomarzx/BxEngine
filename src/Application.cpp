@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 	std::cout << "Project: " << argv[0] << " Version " << BxEngine_VERSION_MAJOR << '.' << BxEngine_VERSION_MINOR << '\n';
 	GLFWwindow* window;
 	Renderer renderer;
-	
+
 	window = SetupGLFW(600, 500, "Hello World", nullptr, nullptr);
 	if (!window)
 	{
@@ -47,35 +47,48 @@ int main(int argc, char** argv)
 	glfwSwapInterval(2);
 	std::cout << glGetString(GL_VERSION) << '\n';
 
-	float Positions[]
+	float Vertices[]
 	{
-		 0.0f,	 0.75f, 0.0f, 0.0f, //0
+		 0.0f,	 0.75f, 0.0f, 0.0f, //0 
 		-0.5f,   0.0f , 1.0f, 0.0f,//1
 		 0.5f,   0.0f , 1.0f, 1.0f, //2
 		 0.0f,	-0.75f, 0.0f , 1.0f  //3
 	};
+	float TriangleWithColor[]
+	{
+		 0.0f ,  0.7f, 0.11f , 0.57f , 0.73f, 1.0f,// Vertex Position vec2 component & Color vec4
+		-0.7f , -0.5f, 0.89f , 0.50f, 0.16f, 1.0f,
+	 	 0.7f , -0.5f, 0.89f , 0.017f, 0.08f, 1.0f
+	};
 
+	float Cross[]
+	{
+		-0.15f, 0.9f,	//0
+		-0.15f,-0.9f,	//1
+		 0.15f, 0.9f,	//2
+		 0.15f,-0.9f,	//3
+		-0.6f, 0.4f,	//4
+		-0.6f, 0.0f,	//5
+		 0.6f, 0.0f,	//6
+		 0.6f, 0.4f		//7
+	};
 	unsigned int Indices[]
 	{
-		0 , 1 , 2,
-		1 , 2 , 3
+		0,1,2,1,2,3,4,5,6,4,6,7
 	};
+
 	VertexArray vao;
+	VertexBuffer vbo1{Vertices , 4 * 4 * sizeof(float) };
+	IndexBuffer ibo1{ Indices , 6 };
 	BufferLayout layout;
-	VertexBuffer VBO1{ Positions , 4 * 4 * sizeof(float) };
-
 	layout.Push<float>(2);
 	layout.Push<float>(2);
-	
-	vao.AddBuffer(VBO1, layout);
-
-	IndexBuffer IBO1{ Indices , 6 };
-
-	Shader ShaderProg("BasicShader.glsl");
-	ShaderProg.Bind();
-	Textures texture("concrete.jpg");
-	texture.Bind();
-	ShaderProg.SetUniform1i("U_Texture", 0);
+	vao.AddBuffer(vbo1, layout);
+	Shader shader1{ "BasicVertexShader.vert" , "BasicFragmentShader.frag"};
+	shader1.Bind();
+	Textures texture{ "concrete.jpg" };
+	texture.Bind(0);
+	shader1.SetUniform1i("U_Texture", 0);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -83,8 +96,7 @@ int main(int argc, char** argv)
 		/* Render here */
 		renderer.Clear();
 
-		renderer.Draw(vao, IBO1, ShaderProg);
-		//glDrawElements(GL_TRIANGLES, 6 , GL_UNSIGNED_INT, nullptr);
+		renderer.Draw(vao, ibo1, shader1);
 
 		glfwSwapBuffers(window);
 		/* Poll for and process events */

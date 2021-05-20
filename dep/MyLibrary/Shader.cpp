@@ -5,10 +5,11 @@
 #include<fstream>
 #include"BxEngineConfig.h"
 
-Shader::Shader(std::string FileName)
-	:m_FilePath{ShaderSrcLocation + FileName}
+Shader::Shader(std::string VertexShaderFilename , std::string FragmentShaderFilename)
+	:m_VertexShaderFilePath{ShaderSrcLocation + VertexShaderFilename} , m_FragmentShaderFilePath{ShaderSrcLocation + FragmentShaderFilename}
 {
-	ParseShaderSrc();
+	ParseShaderSrc(ShaderType::Vertex);
+	ParseShaderSrc(ShaderType::Fragment);
 	m_ShaderId = CreateShader(ShaderSrcs.VertexShaderSrc, ShaderSrcs.FragmentShaderSrc);
 }
 
@@ -42,16 +43,20 @@ void Shader::SetUniform4f(const char* name, float v0, float v1, float v2, float 
 	glUniform4f(GetUniformLocation(name), v0 , v1 , v2, v3);
 }
 
-void Shader::ParseShaderSrc()
+void Shader::ParseShaderSrc(ShaderType type)
 {
-	enum class ShaderType
+	const char* shadersrc;
+	if (type == ShaderType::Vertex)
 	{
-		Vertex = 0, Fragment = 1, NONE = 2
-	};
+		shadersrc = m_VertexShaderFilePath.c_str();
+	}
+	else
+	{
+		shadersrc = m_FragmentShaderFilePath.c_str();
+	}
 	std::ifstream ShaderFile;
-	std::stringstream ss[2];
-	std::string ShaderSrcName = "BasicShader.shader";
-	ShaderFile.open(m_FilePath, std::ifstream::in);
+	std::stringstream ss;
+	ShaderFile.open(shadersrc, std::ifstream::in);
 	ShaderType shadertype = ShaderType::NONE;
 	if (ShaderFile.is_open())
 	{
@@ -59,21 +64,7 @@ void Shader::ParseShaderSrc()
 		std::string line;
 		while (std::getline(ShaderFile, line))
 		{
-			if (line.find("#Shader") != std::string::npos)
-			{
-				if (line.find("Vertex") != std::string::npos)
-				{
-					shadertype = ShaderType::Vertex;
-				}
-				else
-				{
-					shadertype = ShaderType::Fragment;
-				}
-			}
-			else
-			{
-				ss[static_cast<int>(shadertype)] << line << '\n';
-			}
+			ss << line << '\n';
 		}
 	}
 	else {
@@ -81,8 +72,8 @@ void Shader::ParseShaderSrc()
 		throw;
 	}
 	ShaderFile.close();
-
-	ShaderSrcs = { ss[0].str() , ss[1].str() };
+	std::string *src = (std::string*)&ShaderSrcs;
+	src[(int)type] = ss.str();
 }
 
 unsigned int Shader::CompileShader(unsigned int type, const std::string& ShaderSrc)
