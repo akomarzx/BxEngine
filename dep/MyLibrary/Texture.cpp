@@ -18,13 +18,13 @@ Textures::Textures(const std::string TextureName)
 	m_Buffer = stbi_load(m_Filepath.c_str(), &m_widgth, &m_Height, &m_BPP, 4);
 	
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, m_widgth, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_Buffer);
 	glBindTexture(GL_TEXTURE_2D, 0);
-
+	//glGenerateMipmap(GL_TEXTURE_2D);
 	if (m_Buffer)
 	{
 		stbi_image_free(m_Buffer);
